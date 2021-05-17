@@ -1,0 +1,16 @@
+name: Test
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm ci
+      - name: Test build
+        run: npm run build:no-output  
+      - name: Lint
+        run: npm run lint
+      - name: Run Tests
+        run: npm run test
+      - uses: Qualifyze/check-git-integrity-action@v1.0.0

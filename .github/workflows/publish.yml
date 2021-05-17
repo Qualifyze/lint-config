@@ -1,0 +1,23 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm ci
+      - name: Build
+        run: npm run build  
+      - name: Run Tests
+        run: npm run test
+      - uses: Qualifyze/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+      - uses: Klemensas/action-autotag@4d5bc0e2e8cf1b527a7bccdc84cf9314ae86a542
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: "v"
